@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload file</title>
+    <style>
+      input {
+        padding: 4px 10px;
+        margin-bottom: 10px;
+        background-color: pink;
+        border: none;
+        border-radius: 6px;
+      }
+      .img-box {
+        width: 600px;
+        height: 600px;
+      }
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <form
+      action="http://localhost:8080/upload"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <input type="file" name="myFile" />
+      <input type="submit" value="Upload file.." />
+    </form>
+    <div class="img-box">
+      <img
+        src="tempo-images/uploaded-1325421676.jpeg"
+        alt="the uploaded image"
+      />
+    </div>
+  </body>
+</html>
