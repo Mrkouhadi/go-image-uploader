@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 	"net/http"
+	"path/filepath"
 )
 
 func UploadFiles(w http.ResponseWriter, r *http.Request) {
@@ -27,6 +28,8 @@ func UploadFiles(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("Uploaded File Name : %+v \n", handler.Filename)
 	fmt.Printf("File Size : %+v KB \n", handler.Size/1000)
 	fmt.Printf("MIME Header : %+v \n", handler.Header)
+	ext := filepath.Ext(handler.Filename)
+	fmt.Printf("Extension of The file : %+v \n", ext)
 
 	// 3. write temprorary file on our server
 	// tempoFile, err := ioutil.TempFile("tempo-images", "uploaded-*.jpeg")
