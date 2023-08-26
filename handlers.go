@@ -31,21 +31,21 @@ func UploadFiles(w http.ResponseWriter, r *http.Request) {
 	ext := filepath.Ext(handler.Filename)
 	fmt.Printf("Extension of The file : %+v \n", ext)
 
-	// 3. write temprorary file on our server
-	// tempoFile, err := ioutil.TempFile("tempo-images", "uploaded-*.jpeg")
-	tempoFile, err := os.CreateTemp("tempo-images", "uploaded-*.jpeg")
+	// 3. write the file on our server
+	newName := "My-new-image"	
+	newFile, err := os.Create("static/images/"+ newName + ext)
 
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	defer tempoFile.Close()
+	defer newFile.Close()
 	// fileBytes, err := ioutil.ReadAll(file)
 	fileBytes, err := io.ReadAll(file)
 	if err != nil {
 		fmt.Println(err)
 	}
-	tempoFile.Write(fileBytes)
+	newFile.Write(fileBytes)
 
 	w.Write([]byte("You have Successfully uploaded the file \n"))
 }
