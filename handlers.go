@@ -12,10 +12,14 @@ import (
 func UploadFiles(w http.ResponseWriter, r *http.Request) {
 	RenderTemplate(w, "index.html")
 
+	// Define allowed extensions
+	allowedExtensions := map[string]bool{
+		".png":  true,
+		".jpeg": true,
+		".jpg":  true,
+	}
 	// 1. Parse input, type multipart/form-data
-	r.Body = http.MaxBytesReader(w, r.Body, 32<<20+512)
-	// r.ParseMultipartForm(32 << 20) // means max 32 MB    32 << 20 means max 32 MB
-	//r.ParseMultipartForm(10 * 1024 * 1024) // max is 10MB
+	r.Body = http.MaxBytesReader(w, r.Body, 32<<20+512) // 32 mb as maximum bytes to be read
 
 	// 2. retrieve file from posted form-data
 	file, handler, err := r.FormFile("myFile")
@@ -32,6 +36,11 @@ func UploadFiles(w http.ResponseWriter, r *http.Request) {
 	ext := filepath.Ext(handler.Filename)
 	fmt.Printf("Extension of The file : %+v \n", ext)
 
+	if !allowedExtensions[ext] {
+		w.Write([]byte("this extension is not allowed \n"))
+		return
+	}
+
 	// 3. write the file on our server
 	newName := "My-new-image"	
 	newFile, err := os.Create("static/images/"+ newName + ext)
@@ -47,7 +56,6 @@ func UploadFiles(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 	newFile.Write(fileBytes)
-
 	w.Write([]byte("You have Successfully uploaded the file \n"))
 }
 
