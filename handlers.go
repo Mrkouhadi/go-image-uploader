@@ -14,8 +14,8 @@ func UploadFiles(w http.ResponseWriter, r *http.Request) {
 
 	// 1. Parse input, type multipart/form-data
 	r.Body = http.MaxBytesReader(w, r.Body, 32<<20+512)
-	// r.ParseMultipartForm(32 << 20) // means max 32 MB    32 << 20 means max 10 MB
-	r.ParseMultipartForm(10 * 1024 * 1024) // max is 10MB
+	// r.ParseMultipartForm(32 << 20) // means max 32 MB    32 << 20 means max 32 MB
+	//r.ParseMultipartForm(10 * 1024 * 1024) // max is 10MB
 
 	// 2. retrieve file from posted form-data
 	file, handler, err := r.FormFile("myFile")
@@ -50,8 +50,6 @@ func UploadFiles(w http.ResponseWriter, r *http.Request) {
 
 	w.Write([]byte("You have Successfully uploaded the file \n"))
 }
-
-
 
 func MultipleFilesUploader(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" {
