@@ -23,10 +23,11 @@ func UploadFiles(w http.ResponseWriter, r *http.Request) {
 
 	// 2. retrieve file from posted form-data
 	file, handler, err := r.FormFile("myFile")
-	if err != nil {
-		fmt.Println("Failed to retrieve file from form-data")
-		fmt.Println(err)
-		return
+	if err != nil && err != http.ErrMissingFile {
+		return ImageDetails{}, err // Return error if other than missing file
+	} else if err == http.ErrMissingFile {
+		// No file provided, return nil for ImageDetails
+		return ImageDetails{}, nil
 	}
 	defer file.Close()
 
